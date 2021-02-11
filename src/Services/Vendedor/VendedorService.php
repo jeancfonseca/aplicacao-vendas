@@ -3,6 +3,7 @@
 namespace App\Services\Vendedor;
 
 use App\Entity\Vendedor;
+use App\Repository\VendasRepository;
 use App\Repository\VendedorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -50,13 +51,19 @@ class VendedorService
         $vendedores = $this->vendedorRepository->findAll();
 
         foreach ($vendedores as $vendedor){
+            $comissaoTotalVendedor = 0;
 
+            $comissoesVendedor = $this->vendedorRepository->buscarComissaoPorIdVendedor($vendedor->getId());
 
+            foreach ($comissoesVendedor as $comissaoVendedor){
+                $comissaoTotalVendedor += $comissaoVendedor['valor_comissao'];
+            }
 
             array_push($infoVendedor, [
-                "id"    => $vendedor->getId(),
-                "nome"  => $vendedor->getNome(),
-                "email" => $vendedor->getEmail()
+                "id"       => $vendedor->getId(),
+                "nome"     => $vendedor->getNome(),
+                "email"    => $vendedor->getEmail(),
+                "comissao" => number_format($comissaoTotalVendedor, 2, ',', ' ')
             ]);
         }
 
