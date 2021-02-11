@@ -68,24 +68,24 @@ class Vendas
         return $this;
     }
 
-    public function getValorVenda(): ?int
+    public function getValorVenda(): ?float
     {
         return $this->valor_venda;
     }
 
-    public function setValorVenda(int $valor_venda): self
+    public function setValorVenda(float $valor_venda): self
     {
         $this->valor_venda = $valor_venda;
 
         return $this;
     }
 
-    public function getValorComissao(): ?int
+    public function getValorComissao(): ?float
     {
         return $this->valor_comissao;
     }
 
-    public function setValorComissao(int $valor_comissao): self
+    public function setValorComissao(float $valor_comissao): self
     {
         $this->valor_comissao = $valor_comissao;
 

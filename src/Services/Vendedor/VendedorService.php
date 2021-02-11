@@ -17,10 +17,10 @@ class VendedorService
         $this->vendedorRepository = $vendedorRepository;
     }
 
-    public function cadastrarVendedor($dadosEmJson)
+    public function cadastrarVendedor($dados)
     {
-        $nomeVendedor = $dadosEmJson->nome;
-        $emailVendedor = $dadosEmJson->email;
+        $nomeVendedor = $dados->nome;
+        $emailVendedor = $dados->email;
 
         if (!empty($nomeVendedor) && !empty($emailVendedor)){
             $vendedor = new Vendedor();

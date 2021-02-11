@@ -26,10 +26,10 @@ class VendedorController extends AbstractController
      */
     public function novoVendedor(Request $request): Response
     {
-        $dadosEmJson = json_decode($request->getContent());
+        $dados = json_decode($request->getContent());
 
         $vendedorService = new VendedorService($this->entityManager, $this->vendedorRepository);
-        $vendedor = $vendedorService->cadastrarVendedor($dadosEmJson);
+        $vendedor = $vendedorService->cadastrarVendedor($dados);
 
         return $this->json($vendedor);
     }
