@@ -25,7 +25,7 @@ class Vendas
     private $vendedor;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $data_venda;
 

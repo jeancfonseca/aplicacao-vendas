@@ -69,4 +69,36 @@ class VendedorService
 
         return $infoVendedor;
     }
+
+    public function buscarVendasVendedor($idVendedor)
+    {
+        $infoVendasVendedor = [];
+
+        $vendedor = $this->vendedorRepository->find($idVendedor);
+
+        if (!is_null($vendedor)){
+            $vendas = [];
+
+            $vendasVendedor = $this->vendedorRepository->buscarVendasPorIdVendedor($vendedor->getId());
+
+            foreach ($vendasVendedor as $vendaVendedor){
+                array_push($vendas, [
+                    "comissao"    => number_format($vendaVendedor['valor_comissao'], 2, ',', ' '),
+                    "valor_venda" => number_format($vendaVendedor['valor_venda'], 2, ',', ' '),
+                    "data_venda"  => $vendaVendedor['data_venda']->format("d-m-Y H:i:s")
+                ]);
+            }
+
+            $infoVendasVendedor = [
+                "id"     => $vendedor->getId(),
+                "nome"   => $vendedor->getNome(),
+                "email"  => $vendedor->getEmail(),
+                "vendas" => $vendas
+            ];
+        }else{
+            $infoVendasVendedor = ["Erro" => "Vendedor não encontrado !!!"];
+        }
+
+        return $infoVendasVendedor;
+    }
 }

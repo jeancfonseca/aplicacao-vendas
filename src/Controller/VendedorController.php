@@ -44,4 +44,15 @@ class VendedorController extends AbstractController
 
         return $this->json($vendedores);
     }
+
+    /**
+     * @Route("/vendedor/{id_vendedor}", methods={"GET"})
+     */
+    public function buscarvendasVendedor(int $id_vendedor): Response
+    {
+        $vendedorService = new VendedorService($this->entityManager, $this->vendedorRepository);
+        $vendedor = $vendedorService->buscarVendasVendedor($id_vendedor);
+
+        return $this->json($vendedor);
+    }
 }

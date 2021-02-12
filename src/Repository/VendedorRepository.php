@@ -35,4 +35,19 @@ class VendedorRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getArrayResult();
     }
+
+    public function buscarVendasPorIdVendedor($idVendedor)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('v.valor_comissao, v.valor_venda, v.data_venda')
+            ->from(Vendas::class, 'v')
+            ->where(
+                $qb->expr()->eq('v.vendedor', ':id_vendedor')
+            )
+            ->setParameter('id_vendedor', $idVendedor, Type::INTEGER);
+
+        return $qb->getQuery()->getArrayResult();
+    }
 }
