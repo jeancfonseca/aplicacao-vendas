@@ -22,28 +22,33 @@ class VendaService
 
         if (!empty($idVendedor) && !empty($valorVenda)){
 
-            $valorComissao = ($valorVenda / 100 * 8.5);
+            $vendedorRepository = $this->entityManager->getRepository(Vendedor::class);
+            $vendedor = $vendedorRepository->find($idVendedor);
 
-            $vendedorReferencia = $this->entityManager->getReference(Vendedor::class, $idVendedor);
+            if (!is_null($vendedor)){
+                $valorComissao = ($valorVenda / 100 * 8.5);
 
-            $venda = new Vendas();
+                $venda = new Vendas();
 
-            $venda->setVendedor($vendedorReferencia);
-            $venda->setDataVenda(new \DateTime());
-            $venda->setValorVenda($valorVenda);
-            $venda->setValorComissao($valorComissao);
+                $venda->setVendedor($vendedor);
+                $venda->setDataVenda(new \DateTime());
+                $venda->setValorVenda($valorVenda);
+                $venda->setValorComissao($valorComissao);
 
-            $this->entityManager->persist($venda);
-            $this->entityManager->flush();
+                $this->entityManager->persist($venda);
+                $this->entityManager->flush();
 
-            $infoVenda = [
-                "id"    => $vendedorReferencia->getId(),
-                "nome"  => $vendedorReferencia->getNome(),
-                "email" => $vendedorReferencia->getEmail(),
-                "comissao"    => $venda->getValorComissao(),
-                "Valor_venda" => $venda->getValorVenda(),
-                "data_venda"  => $venda->getDataVenda()->format("d-m-Y H:i:s")
-            ];
+                $infoVenda = [
+                    "id"    => $vendedor->getId(),
+                    "nome"  => $vendedor->getNome(),
+                    "email" => $vendedor->getEmail(),
+                    "comissao"    => $venda->getValorComissao(),
+                    "Valor_venda" => $venda->getValorVenda(),
+                    "data_venda"  => $venda->getDataVenda()->format("d-m-Y H:i:s")
+                ];
+            }else{
+                $infoVenda = ["Erro" => "Vendedor não encontrado !!!"];
+            }
         }else{
             $infoVenda = ["Erro" => "Vendedor ou valor da venda são inválidos !!!"];
         }
