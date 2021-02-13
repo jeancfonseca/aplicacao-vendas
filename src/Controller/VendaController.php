@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class VendaController extends AbstractController
@@ -29,5 +30,16 @@ class VendaController extends AbstractController
         $venda = $vendaService->cadastrarVenda($dados);
 
         return $this->json($venda);
+    }
+
+    /**
+     * @Route("/venda/relatorio", methods={"POST"})
+     */
+    public function enviarEmailRelatorioVendas(MailerInterface $mailer)
+    {
+        $vendaService = new VendaService($this->entityManager, $mailer);
+        $relatorioVendas = $vendaService->enviarEmailRelatorioVendas();
+
+        return $this->json($relatorioVendas);
     }
 }

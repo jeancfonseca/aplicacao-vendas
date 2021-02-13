@@ -5,14 +5,17 @@ namespace App\Services\Venda;
 use App\Entity\Vendas;
 use App\Entity\Vendedor;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Mailer\MailerInterface;
 
 class VendaService
 {
     private $entityManager;
+    private $mailer;
 
-    public function __construct (EntityManagerInterface $entityManager)
+    public function __construct (EntityManagerInterface $entityManager, MailerInterface $mailer = null)
     {
         $this->entityManager = $entityManager;
+        $this->mailer = $mailer;
     }
 
     public function cadastrarVenda($dados)
@@ -54,5 +57,22 @@ class VendaService
         }
 
         return $infoVenda;
+    }
+
+    public function enviarEmailRelatorioVendas()
+    {
+        $diaAtual = new \DateTime();
+        $vendasEfetuadas = 4;
+        $valorVendasDia = 35;
+
+        $email = (new Email())
+            ->from('fonsecajean42@gmail.com')
+            ->to('fonsecajean42@gmail.com')
+            ->subject('Relatório de Vendas')
+            ->html('<p>Hoje dia <b>' . $diaAtual->format("d-m-Y") . '</b> foram efetuadas ' . $vendasEfetuadas . ' vendas com um total de R$' . $valorVendasDia . '</p>');
+
+        $mailer->send($email);
+
+        return true;
     }
 }
