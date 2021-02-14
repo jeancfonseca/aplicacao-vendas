@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\VendasRepository;
 use App\Services\Venda\VendaService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,10 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class VendaController extends AbstractController
 {
     private $entityManager;
+    private $vendasRepository;
 
-    public function __construct (EntityManagerInterface $entityManager)
+    public function __construct (EntityManagerInterface $entityManager, VendasRepository $vendasRepository)
     {
         $this->entityManager = $entityManager;
+        $this->vendasRepository = $vendasRepository;
     }
 
     /**
@@ -26,7 +29,7 @@ class VendaController extends AbstractController
     {
         $dados = json_decode($request->getContent());
 
-        $vendaService = new VendaService($this->entityManager);
+        $vendaService = new VendaService($this->entityManager, $this->vendasRepository);
         $venda = $vendaService->cadastrarVenda($dados);
 
         return $this->json($venda);
@@ -37,7 +40,7 @@ class VendaController extends AbstractController
      */
     public function enviarEmailRelatorioVendas(MailerInterface $mailer)
     {
-        $vendaService = new VendaService($this->entityManager, $mailer);
+        $vendaService = new VendaService($this->entityManager, $this->vendasRepository, $mailer);
         $relatorioVendas = $vendaService->enviarEmailRelatorioVendas();
 
         return $this->json($relatorioVendas);

@@ -4,18 +4,22 @@ namespace App\Services\Venda;
 
 use App\Entity\Vendas;
 use App\Entity\Vendedor;
+use App\Repository\VendasRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class VendaService
 {
     private $entityManager;
+    private $vendasRepository;
     private $mailer;
 
-    public function __construct (EntityManagerInterface $entityManager, MailerInterface $mailer = null)
+    public function __construct (EntityManagerInterface $entityManager, VendasRepository $vendasRepository, MailerInterface $mailer = null)
     {
         $this->entityManager = $entityManager;
         $this->mailer = $mailer;
+        $this->vendasRepository = $vendasRepository;
     }
 
     public function cadastrarVenda($dados)
@@ -61,18 +65,59 @@ class VendaService
 
     public function enviarEmailRelatorioVendas()
     {
-        $diaAtual = new \DateTime();
-        $vendasEfetuadas = 4;
-        $valorVendasDia = 35;
+        $vendasFormatadoHtml = $this->vendasDoDia();
 
         $email = (new Email())
             ->from('fonsecajean42@gmail.com')
-            ->to('fonsecajean42@gmail.com')
+            ->to('jean.fonseca94@hotmail.com')
             ->subject('Relatório de Vendas')
-            ->html('<p>Hoje dia <b>' . $diaAtual->format("d-m-Y") . '</b> foram efetuadas ' . $vendasEfetuadas . ' vendas com um total de R$' . $valorVendasDia . '</p>');
+            ->html($vendasFormatadoHtml);
 
-        $mailer->send($email);
+        $this->mailer->send($email);
 
         return true;
+    }
+
+    private function vendasDoDia()
+    {
+        $diaHoraInicio = new \DateTime();
+        $diaHoraInicio->setTime(00,00,00);
+
+        $diaHoraFim = new \DateTime();
+        $diaHoraFim->setTime(23,59,59);
+
+        $vendasDoDia = $this->vendasRepository->buscarVendasDeHoje($diaHoraInicio, $diaHoraFim);
+
+        $emailHtml = $this->tratarVendasDoDia($vendasDoDia);
+
+        return $emailHtml;
+    }
+
+    private function tratarVendasDoDia($vendasDoDia)
+    {
+        $diaAtual = new \DateTime();
+        $corpoTabelaVendas = '';
+
+        $quantidadeVendas = 0;
+        $totalVendas = 0;
+        $totalComissao = 0;
+
+        foreach ($vendasDoDia as $vendaDoDia){
+            $quantidadeVendas ++;
+            $totalVendas += $vendaDoDia['valor_venda'];
+            $totalComissao += $vendaDoDia['valor_comissao'];
+
+            $linhaTabea = '<tr><td>' . $vendaDoDia['nome'] . '</td><td>' . $vendaDoDia['valor_venda'] .
+                '</td><td>' . $vendaDoDia['valor_comissao'] .'</td><td>' . $vendaDoDia['data_venda']->format("H:i:s") .'</td></tr>';
+
+            $corpoTabelaVendas = $corpoTabelaVendas . $linhaTabea;
+        }
+
+        $emailHtml = '<p>Hoje dia <b>' . $diaAtual->format("d-m-Y") . '</b> foram efetuadas ' . $quantidadeVendas .
+                     ' vendas com um total de R$ ' . number_format($totalVendas, 2, ',', ' ') . '</p>
+                     <table style="border: 1px solid black"><tr><th>Vendedor</th><th>Valor da venda (em R$)</th><th>Valor da Comissão (em R$)</th><th>Hora da Venda</th></tr>' . $corpoTabelaVendas .
+                     '<tr><td>Total</td><td>' . number_format($totalVendas, 2, ',', ' ') . '</td><td>' . number_format($totalComissao, 2, ',', ' ') .'</td><td> - </td></tr></table>';
+
+        return $emailHtml;
     }
 }

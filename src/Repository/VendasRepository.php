@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Vendas;
+use App\Entity\Vendedor;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,32 +21,21 @@ class VendasRepository extends ServiceEntityRepository
         parent::__construct($registry, Vendas::class);
     }
 
-    // /**
-    //  * @return Vendas[] Returns an array of Vendas objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function buscarVendasDeHoje($diaAtualHoraInicio, $diaAtualHoraFim)
     {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('v.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
 
-    /*
-    public function findOneBySomeField($value): ?Vendas
-    {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $qb->select('vendas.valor_comissao, vendas.valor_venda, vendas.data_venda, vendedor.nome')
+            ->from(Vendas::class, 'vendas')
+            ->innerJoin(Vendedor::class, 'vendedor', 'WITH', 'vendas.vendedor = vendedor.id')
+            ->where(
+                $qb->expr()->gte('vendas.data_venda', ':data_hora_inicio'),
+                $qb->expr()->lte('vendas.data_venda', ':data_hora_fim')
+            )
+            ->setParameter('data_hora_inicio', $diaAtualHoraInicio, Type::DATETIME)
+            ->setParameter('data_hora_fim', $diaAtualHoraFim, Type::DATETIME);
+
+        return $qb->getQuery()->getArrayResult();
     }
-    */
 }
