@@ -41,8 +41,8 @@ class VendaController extends AbstractController
     public function enviarEmailRelatorioVendas(MailerInterface $mailer)
     {
         $vendaService = new VendaService($this->entityManager, $this->vendasRepository, $mailer);
-        $relatorioVendas = $vendaService->enviarEmailRelatorioVendas();
+        $vendaService->enviarEmailRelatorioVendas();
 
-        return $this->json($relatorioVendas);
+        return $this->json([]);
     }
 }

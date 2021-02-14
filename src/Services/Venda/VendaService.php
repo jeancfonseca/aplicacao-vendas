@@ -68,14 +68,12 @@ class VendaService
         $vendasFormatadoHtml = $this->vendasDoDia();
 
         $email = (new Email())
-            ->from('fonsecajean42@gmail.com')
+            ->from('aplicacaovendas@gmail.com')
             ->to('jean.fonseca94@hotmail.com')
             ->subject('Relatório de Vendas')
             ->html($vendasFormatadoHtml);
 
         $this->mailer->send($email);
-
-        return true;
     }
 
     private function vendasDoDia()
@@ -114,9 +112,10 @@ class VendaService
         }
 
         $emailHtml = '<p>Hoje dia <b>' . $diaAtual->format("d-m-Y") . '</b> foram efetuadas ' . $quantidadeVendas .
-                     ' vendas com um total de R$ ' . number_format($totalVendas, 2, ',', ' ') . '</p>
-                     <table style="border: 1px solid black"><tr><th>Vendedor</th><th>Valor da venda (em R$)</th><th>Valor da Comissão (em R$)</th><th>Hora da Venda</th></tr>' . $corpoTabelaVendas .
-                     '<tr><td>Total</td><td>' . number_format($totalVendas, 2, ',', ' ') . '</td><td>' . number_format($totalComissao, 2, ',', ' ') .'</td><td> - </td></tr></table>';
+                     ' vendas com um total de R$ ' . number_format($totalVendas, 2, ',', ' ') . '.</p>
+                     <table><tr><th>Vendedor</th><th>Valor da venda (em R$)</th><th>Valor da Comissão (em R$)</th><th>Hora da Venda</th></tr>' . $corpoTabelaVendas .
+                     '<tr><td><b>Total</b></td><td>' . number_format($totalVendas, 2, ',', ' ') . '</td><td>' . number_format($totalComissao, 2, ',', ' ') .'</td><td> - </td></tr></table>
+                     <style>table, td, th {border: 1px solid black; text-align: center;}</style>';
 
         return $emailHtml;
     }
