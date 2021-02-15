@@ -1,0 +1,17 @@
+{% extends 'Base/base.html.twig' %}
+
+{% block corpo %}
+    <form id="form_cadastro_venda">
+        <div class="form-group">
+            <label for="form_venda_vendedor">Vendedor</label>
+            <input type="number" class="form-control" id="form_venda_vendedor" placeholder="Id do vendedor">
+        </div>
+        <div class="form-group">
+            <label for="form_venda_valor">Valor</label>
+            <input type="number" class="form-control" id="form_venda_valor" placeholder="Valor da venda">
+        </div>
+        <div>
+            <button id="salvar_venda" class="btn btn-primary">Cadastrar venda</button>
+        </div>
+    </form>
+{% endblock %}

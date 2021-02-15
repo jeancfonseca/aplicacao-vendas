@@ -22,4 +22,12 @@ class Templates extends AbstractController
     {
         return $this->render('/Vendedor/cadastrar_vendedor.html.twig');
     }
+
+    /**
+     * @Route("/cadastrar/venda", methods={"GET"})
+     */
+    public function cadastrarVenda()
+    {
+        return $this->render('/Venda/cadastrar_venda.html.twig');
+    }
 }

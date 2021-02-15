@@ -27,7 +27,7 @@ class VendaController extends AbstractController
      */
     public function novaVenda(Request $request): Response
     {
-        $dados = json_decode($request->getContent());
+        $dados = $request->request->all();
 
         $vendaService = new VendaService($this->entityManager, $this->vendasRepository);
         $venda = $vendaService->cadastrarVenda($dados);
