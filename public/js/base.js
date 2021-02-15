@@ -19,7 +19,7 @@ $("#salvar_vendedor").click(function (e) {
         },
         success: function (data) {
             alert("Vendedor " + data.nome + " cadastrado com sucesso !!!")
-            window.location = "/";
+            window.location = "/listar/vendedores";
         }
     })
 });
@@ -45,7 +45,16 @@ $("#salvar_venda").click(function (e) {
         },
         success: function () {
             alert("Venda cadastrada com sucesso !!!")
-            window.location = "/";
+            window.location = "/listar/vendas/vendedores/" + form.find("#form_venda_vendedor").val();
         }
     })
+});
+
+$(".visualizar_vendas_vendedor").click(function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    var idVendedor = $(this).data("id-vendedor");
+
+    window.location = "/listar/vendas/vendedores/" + idVendedor;
 });

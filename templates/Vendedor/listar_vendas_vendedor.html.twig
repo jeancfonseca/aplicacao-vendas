@@ -1,0 +1,22 @@
+{% extends 'Base/base.html.twig' %}
+
+{% block corpo %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Valor da venda</th>
+            <th scope="col">Comissão do vendedor</th>
+            <th scope="col">data da venda</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for venda in vendedor.vendas %}
+            <tr>
+                <td>{{ venda.valor_venda }}</td>
+                <td>{{ venda.comissao }}</td>
+                <td>{{ venda.data_venda }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

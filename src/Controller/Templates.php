@@ -47,11 +47,22 @@ class Templates extends AbstractController
     /**
      * @Route("/listar/vendedores", methods={"GET"})
      */
-    public function clistarVendedor()
+    public function listarVendedores()
     {
         $vendedorService = new VendedorService($this->entityManager, $this->vendedorRepository);
         $vendedores = $vendedorService->buscarVendedores();
 
         return $this->render('/Vendedor/listar_vendedores.html.twig', ["vendedores" => $vendedores]);
+    }
+
+    /**
+     * @Route("/listar/vendas/vendedores/{id_vendedor}", methods={"GET"})
+     */
+    public function listarVendasVendedor(int $id_vendedor)
+    {
+        $vendedorService = new VendedorService($this->entityManager, $this->vendedorRepository);
+        $vendedores = $vendedorService->buscarVendasVendedor($id_vendedor);
+
+        return $this->render('/Vendedor/listar_vendas_vendedor.html.twig', ["vendedor" => $vendedores]);
     }
 }

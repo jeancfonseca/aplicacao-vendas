@@ -8,6 +8,7 @@
             <th scope="col">Nome</th>
             <th scope="col">Email</th>
             <th scope="col">Comissão</th>
+            <th scope="col">Visualizar vendas do vendedor</th>
         </tr>
         </thead>
         <tbody>
@@ -17,6 +18,9 @@
                     <td>{{ vendedor.nome }}</td>
                     <td>{{ vendedor.email }}</td>
                     <td>{{ vendedor.comissao }}</td>
+                    <td>
+                        <i data-id-vendedor="{{ vendedor.id }}" class="btn btn-sm btn-success visualizar_vendas_vendedor">Visualizar vendas</i>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
