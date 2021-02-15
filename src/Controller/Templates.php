@@ -40,7 +40,10 @@ class Templates extends AbstractController
      */
     public function cadastrarVenda()
     {
-        return $this->render('/Venda/cadastrar_venda.html.twig');
+        $vendedorService = new VendedorService($this->entityManager, $this->vendedorRepository);
+        $vendedores = $vendedorService->buscarVendedoresCadastroVenda();
+
+        return $this->render('/Venda/cadastrar_venda.html.twig', ["vendedores" => $vendedores]);
     }
 
 

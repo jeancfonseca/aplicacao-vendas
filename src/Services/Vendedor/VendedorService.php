@@ -101,4 +101,11 @@ class VendedorService
 
         return $infoVendasVendedor;
     }
+
+    public function buscarVendedoresCadastroVenda()
+    {
+        $vendedores = $this->vendedorRepository->buscarVendedores();
+
+        return $vendedores;
+    }
 }

@@ -4,7 +4,12 @@
     <form id="form_cadastro_venda">
         <div class="form-group">
             <label for="form_venda_vendedor">Vendedor</label>
-            <input type="number" class="form-control" id="form_venda_vendedor" placeholder="Id do vendedor">
+            <select class="form-control" id="form_venda_vendedor">
+                <option value="0" selected disabled>Selecione um vendedor</option>
+                {% for vendedor in vendedores %}
+                    <option value="{{ vendedor.id }}">{{ vendedor.nome }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
             <label for="form_venda_valor">Valor</label>

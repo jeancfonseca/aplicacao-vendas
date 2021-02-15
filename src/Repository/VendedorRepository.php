@@ -50,4 +50,15 @@ class VendedorRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getArrayResult();
     }
+
+    public function buscarVendedores()
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('v.id, v.nome')
+            ->from(Vendedor::class, 'v');
+
+        return $qb->getQuery()->getArrayResult();
+    }
 }
