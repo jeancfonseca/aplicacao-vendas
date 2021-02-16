@@ -37,7 +37,7 @@ class VendedorService
                 "email" => $vendedor->getEmail()
             ];
         }else{
-            $infoVendedor = ["Erro" => "Nome ou email do vendedor são inválidos !!!"];
+            $infoVendedor = ["erro" => "Nome ou email do vendedor são inválidos !!!"];
         }
 
         return $infoVendedor;
@@ -95,7 +95,7 @@ class VendedorService
                 "vendas" => $vendas
             ];
         }else{
-            $infoVendasVendedor = ["Erro" => "Vendedor não encontrado !!!"];
+            $infoVendasVendedor = ["erro" => "Vendedor não encontrado !!!"];
         }
 
         return $infoVendasVendedor;

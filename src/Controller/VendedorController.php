@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Helper\ResponseFactory;
 use App\Repository\VendedorRepository;
 use App\Services\Vendedor\VendedorService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,7 +32,9 @@ class VendedorController extends AbstractController
         $vendedorService = new VendedorService($this->entityManager, $this->vendedorRepository);
         $vendedor = $vendedorService->cadastrarVendedor($dados);
 
-        return $this->json($vendedor);
+        $responseFactory = new ResponseFactory();
+
+        return $responseFactory->getResponse($vendedor);
     }
 
     /**
@@ -42,7 +45,9 @@ class VendedorController extends AbstractController
         $vendedorService = new VendedorService($this->entityManager, $this->vendedorRepository);
         $vendedores = $vendedorService->buscarVendedores();
 
-        return $this->json($vendedores);
+        $responseFactory = new ResponseFactory();
+
+        return $responseFactory->getResponse($vendedores);
     }
 
     /**
@@ -53,6 +58,8 @@ class VendedorController extends AbstractController
         $vendedorService = new VendedorService($this->entityManager, $this->vendedorRepository);
         $vendedor = $vendedorService->buscarVendasVendedor($id_vendedor);
 
-        return $this->json($vendedor);
+        $responseFactory = new ResponseFactory();
+
+        return $responseFactory->getResponse($vendedor);
     }
 }
