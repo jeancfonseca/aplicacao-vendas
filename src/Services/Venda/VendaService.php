@@ -58,10 +58,10 @@ class VendaService
                     "data_venda"  => $venda->getDataVenda()->format("d-m-Y H:i:s")
                 ];
             }else{
-                $infoVenda = ["Erro" => "Vendedor não encontrado !!!"];
+                $infoVenda = ["erro" => "Vendedor não encontrado !!!"];
             }
         }else{
-            $infoVenda = ["Erro" => "Vendedor ou valor da venda são inválidos !!!"];
+            $infoVenda = ["erro" => "Vendedor ou valor da venda são inválidos !!!"];
         }
 
         return $infoVenda;

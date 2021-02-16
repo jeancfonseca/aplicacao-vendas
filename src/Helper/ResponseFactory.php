@@ -11,7 +11,9 @@ class ResponseFactory
     {
         if (isset($conteudoResposta['erro'])){
             $statusResposta = Response::HTTP_BAD_REQUEST;
-        }else{
+        } elseif (empty($conteudoResposta)){
+            $statusResposta = Response::HTTP_NO_CONTENT;
+        } else {
             $statusResposta = Response::HTTP_OK;
         }
 

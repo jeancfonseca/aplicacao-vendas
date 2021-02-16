@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Helper\ResponseFactory;
 use App\Repository\EmailEmpresaRepository;
 use App\Repository\VendasRepository;
 use App\Services\Venda\VendaService;
@@ -35,7 +36,9 @@ class VendaController extends AbstractController
         $vendaService = new VendaService($this->entityManager, $this->vendasRepository);
         $venda = $vendaService->cadastrarVenda($dados);
 
-        return $this->json($venda);
+        $responseFactory = new ResponseFactory();
+
+        return $responseFactory->getResponse($venda);
     }
 
     /**
@@ -46,6 +49,8 @@ class VendaController extends AbstractController
         $vendaService = new VendaService($this->entityManager, $this->vendasRepository, $mailer, $this->emailEmpresaRepository);
         $vendaService->enviarEmailRelatorioVendas();
 
-        return $this->json([]);
+        $responseFactory = new ResponseFactory();
+
+        return $responseFactory->getResponse([]);
     }
 }
