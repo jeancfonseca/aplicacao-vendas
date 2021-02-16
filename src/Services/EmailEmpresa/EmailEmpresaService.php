@@ -18,7 +18,7 @@ class EmailEmpresaService
 
     public function atualizarEmailEmpresa($dados)
     {
-        $novoEmailEmpresa = $dados['email_empresa'];
+        $novoEmailEmpresa = isset($dados['email_empresa']) ? $dados['email_empresa'] : [];
 
         if (!empty($novoEmailEmpresa)){
             $emailEmpresa = $this->emailEmpresaRepository->buscarEmail();

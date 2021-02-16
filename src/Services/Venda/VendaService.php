@@ -28,8 +28,8 @@ class VendaService
 
     public function cadastrarVenda($dados)
     {
-        $idVendedor = $dados['id_vendedor'];
-        $valorVenda = $dados['valor_venda'];
+        $idVendedor = isset($dados['id_vendedor']) ? $dados['id_vendedor'] : [];
+        $valorVenda = isset($dados['valor_venda']) ? $dados['valor_venda'] : [];
 
         if (!empty($idVendedor) && !empty($valorVenda)){
 

@@ -19,8 +19,8 @@ class VendedorService
 
     public function cadastrarVendedor($dados)
     {
-        $nomeVendedor = $dados['nome'];
-        $emailVendedor = $dados['email'];
+        $nomeVendedor = isset($dados['nome']) ? $dados['nome'] : [];
+        $emailVendedor = isset($dados['email']) ? $dados['email'] : [];
 
         if (!empty($nomeVendedor) && !empty($emailVendedor)){
             $vendedor = new Vendedor();
@@ -71,8 +71,6 @@ class VendedorService
 
     public function buscarVendasVendedor($idVendedor)
     {
-        $infoVendasVendedor = [];
-
         $vendedor = $this->vendedorRepository->find($idVendedor);
 
         if (!is_null($vendedor)){
