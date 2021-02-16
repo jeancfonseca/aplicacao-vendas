@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Helper\ResponseFactory;
 use App\Repository\EmailEmpresaRepository;
 use App\Services\EmailEmpresa\EmailEmpresaService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,6 +32,8 @@ class EmailEmpresaController extends AbstractController
         $emailEmpresaService = new EmailEmpresaService($this->entityManager, $this->emailEmpresaRepository);
         $emailEmpresa = $emailEmpresaService->atualizarEmailEmpresa($dados);
 
-        return $this->json($emailEmpresa);
+        $responseFactory = new ResponseFactory();
+
+        return $responseFactory->getResponse($emailEmpresa);
     }
 }

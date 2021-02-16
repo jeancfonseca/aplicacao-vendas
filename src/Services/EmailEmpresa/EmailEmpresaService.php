@@ -34,10 +34,10 @@ class EmailEmpresaService
                     "email" => $emailEmpresa->getEmail()
                 ];
             }else{
-                $infoEmailEmpresa = ["Erro" => "Email da empresa não encontrado !!!"];
+                $infoEmailEmpresa = ["erro" => "Email da empresa não encontrado !!!"];
             }
         }else{
-            $infoEmailEmpresa = ["Erro" => "Email da empresa é inválido !!!"];
+            $infoEmailEmpresa = ["erro" => "Email da empresa é inválido !!!"];
         }
 
         return $infoEmailEmpresa;
