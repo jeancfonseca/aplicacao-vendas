@@ -11,9 +11,9 @@
         </thead>
         <tbody>
             <tr>
-                <td>{{ vendedor.id }}</td>
-                <td>{{ vendedor.nome }}</td>
-                <td>{{ vendedor.email }}</td>
+                <td>{{ vendedor.id|default('-') }}</td>
+                <td>{{ vendedor.nome|default('-') }}</td>
+                <td>{{ vendedor.email|default('-') }}</td>
             </tr>
         </tbody>
     </table>
@@ -27,7 +27,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for venda in vendedor.vendas %}
+        {% for venda in vendedor.vendas|default([]) %}
             <tr>
                 <td>{{ venda.valor_venda }}</td>
                 <td>{{ venda.comissao }}</td>
