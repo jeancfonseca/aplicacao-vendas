@@ -18,8 +18,8 @@ class VendaService
     public function __construct (EntityManagerInterface $entityManager, VendasRepository $vendasRepository, MailerInterface $mailer = null)
     {
         $this->entityManager = $entityManager;
-        $this->mailer = $mailer;
         $this->vendasRepository = $vendasRepository;
+        $this->mailer = $mailer;
     }
 
     public function cadastrarVenda($dados)
