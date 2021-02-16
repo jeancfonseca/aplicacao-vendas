@@ -15,10 +15,10 @@ $("#salvar_vendedor").click(function (e) {
         type: "post",
         data: vendedor,
         error: function () {
-            alert("Erro ao cadastrar vendedor !!!")
+            alert("Erro ao cadastrar vendedor !!!");
         },
         success: function (data) {
-            alert("Vendedor " + data.nome + " cadastrado com sucesso !!!")
+            alert("Vendedor " + data.nome + " cadastrado com sucesso !!!");
             window.location = "/listar/vendedores";
         }
     })
@@ -41,11 +41,27 @@ $("#salvar_venda").click(function (e) {
         type: "post",
         data: venda,
         error: function () {
-            alert("Erro ao cadastrar venda !!!")
+            alert("Erro ao cadastrar venda !!!");
         },
         success: function () {
-            alert("Venda cadastrada com sucesso !!!")
+            alert("Venda cadastrada com sucesso !!!");
             window.location = "/listar/vendas/vendedores/" + form.find("#form_venda_vendedor").val();
+        }
+    })
+});
+
+$("#enviar_relatorio_vendas_dia").click(function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    $.ajax({
+        url: "/venda/relatorio",
+        type: "post",
+        error: function () {
+            alert("Erro ao enviar relatório de vendas do dia !!!");
+        },
+        success: function () {
+            alert("Relatório de vendas do dia enviado com sucesso !!!");
         }
     })
 });
