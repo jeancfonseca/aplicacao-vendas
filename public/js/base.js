@@ -14,8 +14,8 @@ $("#salvar_vendedor").click(function (e) {
         dataType: "json",
         type: "post",
         data: vendedor,
-        error: function () {
-            alert("Erro ao cadastrar vendedor !!!");
+        error: function (erro) {
+            alert(erro.responseJSON.erro);
         },
         success: function (data) {
             alert("Vendedor " + data.nome + " cadastrado com sucesso !!!");
@@ -40,11 +40,11 @@ $("#salvar_venda").click(function (e) {
         dataType: "json",
         type: "post",
         data: venda,
-        error: function () {
-            alert("Erro ao cadastrar venda !!!");
+        error: function (erro) {
+            alert(erro.responseJSON.erro);
         },
-        success: function () {
-            alert("Venda cadastrada com sucesso !!!");
+        success: function (data) {
+            alert("Venda de R$ " + data.Valor_venda + " cadastrada para o vendedor " + data.nome + " com sucesso !!!");
             window.location = "/listar/vendas/vendedores/" + form.find("#form_venda_vendedor").val();
         }
     })
@@ -81,8 +81,8 @@ $("#atualizar_email_empresa").click(function (e) {
         dataType: "json",
         type: "put",
         data: email,
-        error: function () {
-            alert("Erro ao atualizar email !!!");
+        error: function (erro) {
+            alert(erro.responseJSON.erro);
         },
         success: function () {
             alert("Email atualizado com sucesso !!!");
