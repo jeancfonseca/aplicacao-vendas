@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\EmailEmpresaRepository;
 use App\Repository\VendedorRepository;
 use App\Services\Vendedor\VendedorService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,11 +13,13 @@ class Templates extends AbstractController
 {
     private $entityManager;
     private $vendedorRepository;
+    private $emailEmpresaRepository;
 
-    public function __construct (EntityManagerInterface $entityManager, VendedorRepository $vendedorRepository)
+    public function __construct (EntityManagerInterface $entityManager, VendedorRepository $vendedorRepository, EmailEmpresaRepository $emailEmpresaRepository)
     {
         $this->entityManager = $entityManager;
         $this->vendedorRepository = $vendedorRepository;
+        $this->emailEmpresaRepository = $emailEmpresaRepository;
     }
 
     /**
@@ -24,7 +27,9 @@ class Templates extends AbstractController
      */
     public function home()
     {
-        return $this->render('/Menu/menu.html.twig');
+        $emailEmpresa = $this->emailEmpresaRepository->buscarEmailRelatorioVendas();
+
+        return $this->render('/Menu/menu.html.twig', ["email" => $emailEmpresa]);
     }
 
     /**

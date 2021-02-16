@@ -4,8 +4,16 @@
     <main role="main" class="inner cover">
         <h1 class="cover-heading">Aplicação Vendas</h1>
         <p class="lead"> Esta aplicação foi desenvolvida para controle de vendas, vendedores e comissões de vendas.</p>
-        <p class="lead">
-            <a id="enviar_relatorio_vendas_dia" class="btn btn-lg btn-success">Enviar relatório vendas do dia</a>
-        </p>
+        <br>
+        <form id="form_alterar_email_empresa">
+            <div class="form-group">
+                <label for="form_alterar_email_empresa_email">Email</label>
+                <input type="email" class="form-control" id="form_alterar_email_empresa_email" value="{{ email|default('Email para envio de relatórios vendas') }}">
+            </div>
+            <div>
+                <button id="atualizar_email_empresa" class="btn btn-primary">Atualizar email de envio</button>
+                <button id="enviar_relatorio_vendas_dia" class="btn btn-success">Enviar relatório vendas do dia</button>
+            </div>
+        </form>
     </main>
 {% endblock %}

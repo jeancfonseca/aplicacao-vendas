@@ -66,6 +66,31 @@ $("#enviar_relatorio_vendas_dia").click(function (e) {
     })
 });
 
+$("#atualizar_email_empresa").click(function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    var form = $("#form_alterar_email_empresa");
+
+    var email = {
+        email_empresa: form.find("#form_alterar_email_empresa_email").val()
+    };
+
+    $.ajax({
+        url: "/email/empresa",
+        dataType: "json",
+        type: "put",
+        data: email,
+        error: function () {
+            alert("Erro ao atualizar email !!!");
+        },
+        success: function () {
+            alert("Email atualizado com sucesso !!!");
+            window.location = "/";
+        }
+    })
+});
+
 $(".visualizar_vendas_vendedor").click(function (e) {
     e.preventDefault();
     e.stopPropagation();
