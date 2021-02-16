@@ -17,7 +17,6 @@ class Vendas
      */
     private $id;
 
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Vendedor")
      * @ORM\JoinColumn(nullable=false)

@@ -3,7 +3,6 @@
 namespace App\Services\Vendedor;
 
 use App\Entity\Vendedor;
-use App\Repository\VendasRepository;
 use App\Repository\VendedorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
