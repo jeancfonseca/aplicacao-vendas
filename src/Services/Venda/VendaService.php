@@ -4,6 +4,7 @@ namespace App\Services\Venda;
 
 use App\Entity\Vendas;
 use App\Entity\Vendedor;
+use App\Repository\EmailEmpresaRepository;
 use App\Repository\VendasRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -14,12 +15,15 @@ class VendaService
     private $entityManager;
     private $vendasRepository;
     private $mailer;
+    private $emailEmpresaRepository;
 
-    public function __construct (EntityManagerInterface $entityManager, VendasRepository $vendasRepository, MailerInterface $mailer = null)
+    public function __construct (EntityManagerInterface $entityManager, VendasRepository $vendasRepository,
+                                 MailerInterface $mailer = null, EmailEmpresaRepository $emailEmpresaRepository = null)
     {
         $this->entityManager = $entityManager;
         $this->vendasRepository = $vendasRepository;
         $this->mailer = $mailer;
+        $this->emailEmpresaRepository = $emailEmpresaRepository;
     }
 
     public function cadastrarVenda($dados)
@@ -66,10 +70,11 @@ class VendaService
     public function enviarEmailRelatorioVendas()
     {
         $vendasFormatadoHtml = $this->vendasDoDia();
+        $emailEmpresa = $this->emailEmpresaRepository->buscarEmailRelatorioVendas();
 
         $email = (new Email())
             ->from('aplicacaovendas@gmail.com')
-            ->to('jean.fonseca94@hotmail.com')
+            ->to($emailEmpresa)
             ->subject('Relatório de Vendas')
             ->html($vendasFormatadoHtml);
 

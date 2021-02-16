@@ -29,4 +29,15 @@ class EmailEmpresaRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    public function buscarEmailRelatorioVendas()
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('ee.email')
+            ->from(EmailEmpresa::class, 'ee');
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

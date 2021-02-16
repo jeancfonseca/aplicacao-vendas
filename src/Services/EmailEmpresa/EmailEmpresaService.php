@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Vendedor;
+namespace App\Services\EmailEmpresa;
 
 use App\Repository\EmailEmpresaRepository;
 use Doctrine\ORM\EntityManagerInterface;

@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\EmailEmpresaRepository;
-use App\Services\Vendedor\EmailEmpresaService;
+use App\Services\EmailEmpresa\EmailEmpresaService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

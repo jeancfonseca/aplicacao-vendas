@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\EmailEmpresaRepository;
 use App\Repository\VendasRepository;
 use App\Services\Venda\VendaService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,11 +16,13 @@ class VendaController extends AbstractController
 {
     private $entityManager;
     private $vendasRepository;
+    private $emailEmpresaRepository;
 
-    public function __construct (EntityManagerInterface $entityManager, VendasRepository $vendasRepository)
+    public function __construct (EntityManagerInterface $entityManager, VendasRepository $vendasRepository, EmailEmpresaRepository $emailEmpresaRepository)
     {
         $this->entityManager = $entityManager;
         $this->vendasRepository = $vendasRepository;
+        $this->emailEmpresaRepository = $emailEmpresaRepository;
     }
 
     /**
@@ -40,7 +43,7 @@ class VendaController extends AbstractController
      */
     public function enviarEmailRelatorioVendas(MailerInterface $mailer)
     {
-        $vendaService = new VendaService($this->entityManager, $this->vendasRepository, $mailer);
+        $vendaService = new VendaService($this->entityManager, $this->vendasRepository, $mailer, $this->emailEmpresaRepository);
         $vendaService->enviarEmailRelatorioVendas();
 
         return $this->json([]);
