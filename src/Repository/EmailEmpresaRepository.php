@@ -18,4 +18,15 @@ class EmailEmpresaRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, EmailEmpresa::class);
     }
+
+    public function buscarEmail()
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('ee')
+            ->from(EmailEmpresa::class, 'ee');
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }
