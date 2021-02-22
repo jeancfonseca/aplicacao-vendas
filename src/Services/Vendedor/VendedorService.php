@@ -3,18 +3,15 @@
 namespace App\Services\Vendedor;
 
 use App\Entity\Vendedor;
-use App\Repository\VendedorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class VendedorService
 {
     private $entityManager;
-    private $vendedorRepository;
 
-    public function __construct (EntityManagerInterface $entityManager, VendedorRepository $vendedorRepository)
+    public function __construct (EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->vendedorRepository = $vendedorRepository;
     }
 
     public function cadastrarVendedor($dados)
@@ -47,12 +44,12 @@ class VendedorService
     {
         $infoVendedor = [];
 
-        $vendedores = $this->vendedorRepository->findAll();
+        $vendedores = $this->entityManager->getRepository(Vendedor::class)->findAll();
 
         foreach ($vendedores as $vendedor){
             $comissaoTotalVendedor = 0;
 
-            $comissoesVendedor = $this->vendedorRepository->buscarComissaoPorIdVendedor($vendedor->getId());
+            $comissoesVendedor = $this->entityManager->getRepository(Vendedor::class)->buscarComissaoPorIdVendedor($vendedor->getId());
 
             foreach ($comissoesVendedor as $comissaoVendedor){
                 $comissaoTotalVendedor += $comissaoVendedor['valor_comissao'];
@@ -71,12 +68,12 @@ class VendedorService
 
     public function buscarVendasVendedor($idVendedor)
     {
-        $vendedor = $this->vendedorRepository->find($idVendedor);
+        $vendedor = $this->entityManager->getRepository(Vendedor::class)->find($idVendedor);
 
         if (!is_null($vendedor)){
             $vendas = [];
 
-            $vendasVendedor = $this->vendedorRepository->buscarVendasPorIdVendedor($vendedor->getId());
+            $vendasVendedor = $this->entityManager->getRepository(Vendedor::class)->buscarVendasPorIdVendedor($vendedor->getId());
 
             foreach ($vendasVendedor as $vendaVendedor){
                 array_push($vendas, [
@@ -101,7 +98,7 @@ class VendedorService
 
     public function buscarVendedoresCadastroVenda()
     {
-        $vendedores = $this->vendedorRepository->buscarVendedores();
+        $vendedores = $this->entityManager->getRepository(Vendedor::class)->buscarVendedores();
 
         return $vendedores;
     }

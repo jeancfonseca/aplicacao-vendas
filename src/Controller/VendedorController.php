@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Helper\ResponseFactory;
-use App\Repository\VendedorRepository;
 use App\Services\Vendedor\VendedorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,12 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class VendedorController extends AbstractController
 {
     private $entityManager;
-    private $vendedorRepository;
 
-    public function __construct (EntityManagerInterface $entityManager, VendedorRepository $vendedorRepository)
+    public function __construct (EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->vendedorRepository = $vendedorRepository;
     }
 
     /**
@@ -29,7 +26,7 @@ class VendedorController extends AbstractController
     {
         $dados = $request->request->all();
 
-        $vendedorService = new VendedorService($this->entityManager, $this->vendedorRepository);
+        $vendedorService = new VendedorService($this->entityManager);
         $vendedor = $vendedorService->cadastrarVendedor($dados);
 
         $responseFactory = new ResponseFactory();
@@ -42,7 +39,7 @@ class VendedorController extends AbstractController
      */
     public function buscarVendedores(): Response
     {
-        $vendedorService = new VendedorService($this->entityManager, $this->vendedorRepository);
+        $vendedorService = new VendedorService($this->entityManager);
         $vendedores = $vendedorService->buscarVendedores();
 
         $responseFactory = new ResponseFactory();
@@ -55,7 +52,7 @@ class VendedorController extends AbstractController
      */
     public function buscarvendasVendedor(int $id_vendedor): Response
     {
-        $vendedorService = new VendedorService($this->entityManager, $this->vendedorRepository);
+        $vendedorService = new VendedorService($this->entityManager);
         $vendedor = $vendedorService->buscarVendasVendedor($id_vendedor);
 
         $responseFactory = new ResponseFactory();
