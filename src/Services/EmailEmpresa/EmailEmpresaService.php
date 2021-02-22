@@ -40,4 +40,11 @@ class EmailEmpresaService
 
         return $infoEmailEmpresa;
     }
+
+    public function buscarEmailAtualEmoresa()
+    {
+        $emailEmpresa = $this->entityManager->getRepository(EmailEmpresa::class)->buscarEmailRelatorioVendas();
+
+        return $emailEmpresa;
+    }
 }

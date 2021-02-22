@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\EmailEmpresaRepository;
-use App\Repository\VendedorRepository;
+use App\Services\EmailEmpresa\EmailEmpresaService;
 use App\Services\Vendedor\VendedorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,14 +11,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class Templates extends AbstractController
 {
     private $entityManager;
-    private $vendedorRepository;
-    private $emailEmpresaRepository;
 
-    public function __construct (EntityManagerInterface $entityManager, VendedorRepository $vendedorRepository, EmailEmpresaRepository $emailEmpresaRepository)
+    public function __construct (EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->vendedorRepository = $vendedorRepository;
-        $this->emailEmpresaRepository = $emailEmpresaRepository;
     }
 
     /**
@@ -27,7 +22,8 @@ class Templates extends AbstractController
      */
     public function home()
     {
-        $emailEmpresa = $this->emailEmpresaRepository->buscarEmailRelatorioVendas();
+        $emailEmpresaService = new EmailEmpresaService($this->entityManager);
+        $emailEmpresa = $emailEmpresaService->buscarEmailAtualEmoresa();
 
         return $this->render('/Menu/menu.html.twig', ["email" => $emailEmpresa]);
     }
@@ -45,7 +41,7 @@ class Templates extends AbstractController
      */
     public function cadastrarVenda()
     {
-        $vendedorService = new VendedorService($this->entityManager, $this->vendedorRepository);
+        $vendedorService = new VendedorService($this->entityManager);
         $vendedores = $vendedorService->buscarVendedoresCadastroVenda();
 
         return $this->render('/Venda/cadastrar_venda.html.twig', ["vendedores" => $vendedores]);
@@ -57,7 +53,7 @@ class Templates extends AbstractController
      */
     public function listarVendedores()
     {
-        $vendedorService = new VendedorService($this->entityManager, $this->vendedorRepository);
+        $vendedorService = new VendedorService($this->entityManager);
         $vendedores = $vendedorService->buscarVendedores();
 
         return $this->render('/Vendedor/listar_vendedores.html.twig', ["vendedores" => $vendedores]);
@@ -68,7 +64,7 @@ class Templates extends AbstractController
      */
     public function listarVendasVendedor(int $id_vendedor)
     {
-        $vendedorService = new VendedorService($this->entityManager, $this->vendedorRepository);
+        $vendedorService = new VendedorService($this->entityManager);
         $vendedores = $vendedorService->buscarVendasVendedor($id_vendedor);
 
         return $this->render('/Vendedor/listar_vendas_vendedor.html.twig', ["vendedor" => $vendedores]);
