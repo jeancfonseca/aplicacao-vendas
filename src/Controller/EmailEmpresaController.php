@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Helper\ResponseFactory;
-use App\Repository\EmailEmpresaRepository;
 use App\Services\EmailEmpresa\EmailEmpresaService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,12 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class EmailEmpresaController extends AbstractController
 {
     private $entityManager;
-    private $emailEmpresaRepository;
 
-    public function __construct (EntityManagerInterface $entityManager, EmailEmpresaRepository $emailEmpresaRepository)
+    public function __construct (EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->emailEmpresaRepository = $emailEmpresaRepository;
     }
 
     /**
@@ -29,7 +26,7 @@ class EmailEmpresaController extends AbstractController
     {
         $dados = $request->request->all();
 
-        $emailEmpresaService = new EmailEmpresaService($this->entityManager, $this->emailEmpresaRepository);
+        $emailEmpresaService = new EmailEmpresaService($this->entityManager);
         $emailEmpresa = $emailEmpresaService->atualizarEmailEmpresa($dados);
 
         $responseFactory = new ResponseFactory();

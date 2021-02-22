@@ -2,18 +2,16 @@
 
 namespace App\Services\EmailEmpresa;
 
-use App\Repository\EmailEmpresaRepository;
+use App\Entity\EmailEmpresa;
 use Doctrine\ORM\EntityManagerInterface;
 
 class EmailEmpresaService
 {
     private $entityManager;
-    private $emailEmpresaRepository;
 
-    public function __construct (EntityManagerInterface $entityManager, EmailEmpresaRepository $emailEmpresaRepository)
+    public function __construct (EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->emailEmpresaRepository = $emailEmpresaRepository;
     }
 
     public function atualizarEmailEmpresa($dados)
@@ -21,7 +19,7 @@ class EmailEmpresaService
         $novoEmailEmpresa = isset($dados['email_empresa']) ? $dados['email_empresa'] : [];
 
         if (!empty($novoEmailEmpresa)){
-            $emailEmpresa = $this->emailEmpresaRepository->buscarEmail();
+            $emailEmpresa = $this->entityManager->getRepository(EmailEmpresa::class)->buscarEmail();
 
             if (!is_null($emailEmpresa)){
                 $emailEmpresa->setEmail($novoEmailEmpresa);
