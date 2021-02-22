@@ -2,8 +2,6 @@
 
 namespace App\Command;
 
-use App\Repository\EmailEmpresaRepository;
-use App\Repository\VendasRepository;
 use App\Services\Venda\VendaService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -14,16 +12,12 @@ use Symfony\Component\Mailer\MailerInterface;
 class enviarEmailVendasDiariaCommand extends Command
 {
     private $entityManager;
-    private $vendasRepository;
     private $mailer;
-    private $emailEmpresaRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, VendasRepository $vendasRepository, MailerInterface $mailer, EmailEmpresaRepository $emailEmpresaRepository)
+    public function __construct(EntityManagerInterface $entityManager, MailerInterface $mailer)
     {
         $this->entityManager = $entityManager;
-        $this->vendasRepository = $vendasRepository;
         $this->mailer = $mailer;
-        $this->emailEmpresaRepository = $emailEmpresaRepository;
 
         parent::__construct(null);
     }
@@ -37,7 +31,7 @@ class enviarEmailVendasDiariaCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $vendaService = new VendaService($this->entityManager, $this->vendasRepository, $this->mailer, $this->emailEmpresaRepository);
+        $vendaService = new VendaService($this->entityManager, $this->mailer);
         $vendaService->enviarEmailRelatorioVendas();
 
         $output->writeln('Email enviado com sucesso !!!');

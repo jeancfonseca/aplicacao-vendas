@@ -2,10 +2,9 @@
 
 namespace App\Services\Venda;
 
+use App\Entity\EmailEmpresa;
 use App\Entity\Vendas;
 use App\Entity\Vendedor;
-use App\Repository\EmailEmpresaRepository;
-use App\Repository\VendasRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -13,17 +12,12 @@ use Symfony\Component\Mime\Email;
 class VendaService
 {
     private $entityManager;
-    private $vendasRepository;
     private $mailer;
-    private $emailEmpresaRepository;
 
-    public function __construct (EntityManagerInterface $entityManager, VendasRepository $vendasRepository,
-                                 MailerInterface $mailer = null, EmailEmpresaRepository $emailEmpresaRepository = null)
+    public function __construct (EntityManagerInterface $entityManager, MailerInterface $mailer = null)
     {
         $this->entityManager = $entityManager;
-        $this->vendasRepository = $vendasRepository;
         $this->mailer = $mailer;
-        $this->emailEmpresaRepository = $emailEmpresaRepository;
     }
 
     public function cadastrarVenda($dados)
@@ -70,7 +64,7 @@ class VendaService
     public function enviarEmailRelatorioVendas()
     {
         $vendasFormatadoHtml = $this->vendasDoDia();
-        $emailEmpresa = $this->emailEmpresaRepository->buscarEmailRelatorioVendas();
+        $emailEmpresa = $this->entityManager->getRepository(EmailEmpresa::class)->buscarEmailRelatorioVendas();
 
         $email = (new Email())
             ->from('aplicacaovendas@gmail.com')
@@ -89,7 +83,7 @@ class VendaService
         $diaHoraFim = new \DateTime();
         $diaHoraFim->setTime(23,59,59);
 
-        $vendasDoDia = $this->vendasRepository->buscarVendasDeHoje($diaHoraInicio, $diaHoraFim);
+        $vendasDoDia = $this->entityManager->getRepository(Vendas::class)->buscarVendasDeHoje($diaHoraInicio, $diaHoraFim);
 
         $emailHtml = $this->tratarVendasDoDia($vendasDoDia);
 
