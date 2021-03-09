@@ -67,7 +67,6 @@ class VendaService
         $emailEmpresa = $this->entityManager->getRepository(EmailEmpresa::class)->buscarEmailRelatorioVendas();
 
         $email = (new Email())
-            ->from('aplicacaovendas@gmail.com')
             ->to($emailEmpresa)
             ->subject('Relatório de Vendas')
             ->html($vendasFormatadoHtml);
