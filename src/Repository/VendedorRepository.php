@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Vendas;
 use App\Entity\Vendedor;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Types\Type;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -31,7 +30,7 @@ class VendedorRepository extends ServiceEntityRepository
             ->where(
                 $qb->expr()->eq('v.vendedor', ':id_vendedor')
             )
-            ->setParameter('id_vendedor', $idVendedor, Type::INTEGER);
+            ->setParameter('id_vendedor', $idVendedor);
 
         return $qb->getQuery()->getArrayResult();
     }
@@ -46,7 +45,7 @@ class VendedorRepository extends ServiceEntityRepository
             ->where(
                 $qb->expr()->eq('v.vendedor', ':id_vendedor')
             )
-            ->setParameter('id_vendedor', $idVendedor, Type::INTEGER);
+            ->setParameter('id_vendedor', $idVendedor);
 
         return $qb->getQuery()->getArrayResult();
     }

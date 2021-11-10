@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Vendas;
 use App\Entity\Vendedor;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Types\Type;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -33,8 +32,8 @@ class VendasRepository extends ServiceEntityRepository
                 $qb->expr()->gte('vendas.data_venda', ':data_hora_inicio'),
                 $qb->expr()->lte('vendas.data_venda', ':data_hora_fim')
             )
-            ->setParameter('data_hora_inicio', $diaAtualHoraInicio, Type::DATETIME)
-            ->setParameter('data_hora_fim', $diaAtualHoraFim, Type::DATETIME);
+            ->setParameter('data_hora_inicio', $diaAtualHoraInicio)
+            ->setParameter('data_hora_fim', $diaAtualHoraFim);
 
         return $qb->getQuery()->getArrayResult();
     }
